@@ -1,0 +1,33 @@
+name: CI/CD на localhost
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-test-and-serve:
+    # выполняем на self-hosted runner, чтобы сервер поднялся локально
+    runs-on: [self-hosted]
+
+    steps:
+      - name: 📥 Checkout репо
+        uses: actions/checkout@v3
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🧪 Run unit tests
+        run: npm test
+
+      - name: 🚀 Запуск сервера
+        if: success()
+        run: |
+          
+          nohup node index.js > server.log 2>&1 &
+          echo "Server started on http://localhost:3000"
