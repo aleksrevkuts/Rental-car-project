@@ -1,4 +1,4 @@
-name: CI/CD на localhost
+name: CI/CD on localhost
 
 on:
   push:
@@ -7,25 +7,25 @@ on:
 
 jobs:
   build-test-and-serve:
-    # выполняем на self-hosted runner, чтобы сервер поднялся локально
+    
     runs-on: [self-hosted]
 
     steps:
-      - name: 📥 Checkout репо
+      - name:  Checkout repo
         uses: actions/checkout@v3
 
-      - name: 🟢 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: 🧪 Run unit tests
+      - name: Run unit tests
         run: npm test
 
-      - name: 🚀 Запуск сервера
+      - name: Server start
         if: success()
         run: |
           
